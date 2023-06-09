@@ -1,0 +1,229 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    background-color: #000;
+    background-image: url(https://www.europenowjournal.org/wp-content/uploads/2018/12/shutterstock_142601641-1024x683.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    }
+body::after{
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.7;
+    z-index: -1;
+    }
+    
+a{
+    text-decoration: none;
+    color: orange;
+    font-size: 1.5rem;
+  }
+
+a:hover{
+    color: white;
+  }
+
+header{
+    position: relative;
+    padding: 0 2rem;
+   }
+   .logo{
+    width: 180px;
+    margin-top: 4%;
+    margin-left: -10%;
+}  
+  li{ 
+    list-style: none;
+  
+  }
+.navbar{
+    width:100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* background-color: #454646; */
+    border-radius: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family:'Cormorant Garamond', serif;
+ }
+  
+ .navbar .links{
+    display: flex;
+    gap: 2rem;
+  
+  }
+  .navbar .toggle_btn{
+    padding: 2rem;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: none;
+  
+  }
+  .getStarted a{
+    position: relative;
+    right: 15%;
+    }
+    .action_btn{
+      background-color: #ffa500;
+      color: #fff;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      outline: none;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .action_btn:hover{
+      scale: 1.05;
+      color: wheat;
+    }
+    
+    .action_btn:active{
+      scale: o.95;
+    }
+    /* Dropdown menu */
+    
+    .dropdown_menu{
+      display: none;
+      position:absolute;
+      right: 2rem;
+      top: 60px;
+      height: 0;
+      width: 300px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: height .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .dropdown_menu.open{
+      height: 240px;
+    }
+    .dropdown_menu li {
+      padding: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    
+    }
+    
+    .dropdown_menu .action_btn{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    
+    /* hero */
+    section#hero{
+      height: calc(100vh - 60px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    
+    #hero h1{
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-family: 'Source Serif Pro', serif;
+      text-align: center;
+      opacity: 50%;
+    }
+    
+    #hero p {
+        font-family: 'Source Serif Pro', serif, italic;
+        opacity: 50%;
+        font-size: 1rem;
+    }
+    
+    
+    /* responsive desigh */
+    @media(max-width: 992px){
+      .navbar .links,
+      .navbar .action_btn{
+        display: none;
+      }
+      .navbar .toggle_btn{
+        display: block;
+      }
+      .dropdown_menu{
+        display: block;
+      }
+    }
+    
+    @media(max-width: 576px){
+      .dropdown_menu{
+        left: 2rem;
+        width: unset;
+      }
+    }
+    .dropbtn {
+      padding: 2px;
+      border: none;
+      text-decoration: none;
+      background: none;
+    color: orange;
+    font-size: 1.5rem;
+    font-family:'Cormorant Garamond', serif;
+    }
+    .dropbtn:hover{
+      color: #fff;
+    }
+    
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      background-color: black;
+      
+    }
+    
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: orange;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {background-color:black;
+    font-weight: bold;}
+    
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {display: block; font-size: 2 em;}
+
+    .main-footer{
+      color: white;
+    }
+    .logo{
+      width: 180px;
+      height: 180px;
+    }

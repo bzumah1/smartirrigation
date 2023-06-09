@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Real Time Weather</title>
+    <link rel="icon" type="image/x-icon" href="images/NO BG.png">
+      <style>
+        .weather-info-detail-title,
+        .weather-search-title,
+.weather-info-detail-title h3,
+#weatherInfo h2,
+#weatherInfo p,
+.cropItem h3,
+.cropItem p {
+  color: white;
+}
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 10px;
+      width: 200px;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #weatherInfo {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    #forecastContainer {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .forecastDay {
+      width: 150px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .forecastDay i {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+
+    .cropCard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+  
+    }
+
+    .cropCard .cropItem {
+      width: 300px;
+      margin: 10px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 75px;
+      text-align: center;
+    }
+
+    /* Responsive Styles */
+    @media only screen and (max-width: 600px) {
+      input[type="text"] {
+        width: 100%;
+      }
+
+      button {
+        margin-top: 10px;
+      }
+
+      #forecastContainer {
+        margin-top: 20px;
+      }
+
+      .forecastDay {
+        width: calc(50% - 20px);
+      }
+
+      .cropCard .cropItem {
+        width: calc(50% - 20px);
+      }
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="/images/logo.ico">
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Montaga&family=Silkscreen&family=Source+Serif+Pro:ital,wght@1,900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <div class="logo"><a href="#"><img src="images/NO BG.png"class="logo"></a></div>
+        
+        <ul class="links">
+          <li><a href="home" target="_blank">Home</a></li>
+          <li><a href="about" target="_blank">About</a></li>
+          <li><a href="services" target="_blank">Services</a></li>
+          <li><a href="contact.html" target="_blank">Contact</a></li>
+        </ul>
+        <div class="getStarted">
+          <a href="login.html" class="action_btn" target="_blank">Get Started</a>
+        </div>
+        <div class="toggle_btn"><i class="fa-solid fa-bars"></i></div>
+      </div>
+      <div class="dropdown_menu">
+        <li><a href="home" target="_blank">Home</a></li>
+        <li><a href="about" target="_blank">About</a></li>
+        <div class="dropdown">
+          <button class="dropbtn">Services</button>
+          <div class="dropdown-content">
+            <a href="#">Plants Information</a>
+            <a href="#">Weather</a>
+          </div>
+        </div>
+        <li><a href="contact.html" target="_blank">Contact</a></li>
+        <li><a href="login.html" class="action_btn" target="_blank">Get Started</a></li>
+      </div>
+    </header>
+    <hr class="about-line" style="margin-left: 520px; margin-right: 520px;">
+    <div class="weather-crops-container">
+      <h1 class="weather-search-title">Weather Search</h1>
+  
+  <input type="text" id="cityInput" placeholder="Enter city name">
+  <button onclick="searchWeather()">Search</button>
+  
+  <div id="weatherInfo"></div>
+
+  <div id="forecastContainer"></div>
+
+  <div class="weather-info-detail-title">
+    <h3>Crops suitable for the selected weather</h3>
+    <hr class="about-line" style="margin-left: 520px; margin-right: 520px;">
+  </div>
+
+  <div id="cropCards"></div>
+
+    </div>
+  <script>
+    function searchWeather() {
+      var apiKey = 'd621ebdd29e23f71bdd19a48a4f6acc3';
+      var city = document.getElementById('cityInput').value;
+      var url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+      $.getJSON(url, function(data) {
+        var weatherInfo = document.getElementById('weatherInfo');
+        weatherInfo.innerHTML = `
+          <h2>${data.name}, ${data.sys.country}</h2>
+          <p>Temperature: ${kelvinToCelsius(data.main.temp)}°C</p>
+          <p>Humidity: ${data.main.humidity}%</p>
+          <p>Weather: ${data.weather[0].description} <i class="fas ${getWeatherIconClass(data.weather[0].icon)}"></i></p>
+        `;
+
+        displayCropCards(data.weather[0].icon);
+      }).fail(function() {
+        var weatherInfo = document.getElementById('weatherInfo');
+        weatherInfo.innerHTML = 'Failed to fetch weather data. Please try again.';
+      });
+    }
+
+    function kelvinToCelsius(kelvin) {
+      return Math.round(kelvin - 273.15);
+    }
+
+    function getWeatherIconClass(weatherIcon) {
+      if (weatherIcon.includes("d") || weatherIcon.includes("01") || weatherIcon.includes("02")) {
+        return "fa-sun";
+      } else if (weatherIcon.includes("09") || weatherIcon.includes("10")) {
+        return "fa-cloud-showers-heavy";
+      } else {
+        return "fa-cloud";
+      }
+    }
+
+    function displayCropCards(weatherIcon) {
+      var cropCardsContainer = document.getElementById('cropCards');
+      cropCardsContainer.innerHTML = '';
+
+      var crops = getCropsByWeather(weatherIcon);
+      if (crops.length > 0) {
+        var cropCardHTML = '<div class="cropCard">';
+        for (var i = 0; i < crops.length; i++) {
+          cropCardHTML += `
+            <div class="cropItem">
+              <h3>${crops[i].name}</h3>
+              <p>${crops[i].description}</p>
+              <img src="${crops[i].image}" alt="${crops[i].name}" style="width: 150px; height: 150px;">
+            </div>
+          `;
+        }
+        cropCardHTML += '</div>';
+
+        cropCardsContainer.innerHTML = cropCardHTML;
+      }
+    }
+
+    function getCropsByWeather(weatherIcon) {
+      var crops = [];
+      
+      
+      if (weatherIcon.includes("d") || weatherIcon.includes("01") || weatherIcon.includes("02")) {
+        crops = [
+          {
+            name: "Sunflower",
+            description: "Ideal for sunny weather conditions. Requires plenty of sunlight for growth.",
+            image: "https://cdn.shopify.com/s/files/1/0620/2749/7724/products/sunflower-mammoth-grey-stripe-aly-5.jpg?v=1653508165&width=1946"
+          },
+          {
+            name: "Tomato",
+            description: "Thrives in warm and sunny weather. Requires well-drained soil.",
+            image: "https://media.istockphoto.com/id/171589415/photo/tomatoes.jpg?s=612x612&w=0&k=20&c=meLJRFAyGEM6zt6dkpW7uM0x2Wvwr3THCzTA5mFQgFI="
+          },
+          {
+            name: "Corn",
+            description: "Requires plenty of sunlight for growth. Prefers rich and well-fertilized soil.",
+            image: "https://www.bhg.com/thmb/CW7wrStDiGAaHprdDT7dYIgnz8c=/1500x0/filters:no_upscale():strip_icc()/when-to-harvest-corn-for-sweetest-ears-6749235-01-2e11a328ae9f4ee5a0f531af74e67cc0.jpg"
+          },
+          
+        ];
+      } else if (weatherIcon.includes("09") || weatherIcon.includes("10")) {
+        crops = [
+          {
+            name: "Lettuce",
+            description: "Prefers cool and moist conditions. Requires well-drained soil.",
+            image: "https://assets.epicurious.com/photos/5ef0e382c0f6cca21c0e6cd7/1:1/w_3466,h_3466,c_limit/Lettuce_HERO_060320_8897.jpg"
+          },
+          {
+            name: "Cabbage",
+            description: "Tolerates rainy weather well. Requires fertile and well-watered soil.",
+            image: "https://health.clevelandclinic.org/wp-content/uploads/sites/3/2022/09/Benefits-Of-Cabbage-589153824-770x533-1-650x428.jpg"
+          },
+          {
+            name: "Spinach",
+            description: "Grows best in cool and wet climates. Requires regular watering.",
+            image: "https://i0.wp.com/post.healthline.com/wp-content/uploads/2019/05/spinach-1296x728-header.jpg?w=1155&h=1528"
+          }
+        ];
+      }
+
+      return crops;
+    }
+
+    function getCurrentLocationWeather() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var latitude = position.coords.latitude;
+          var longitude = position.coords.longitude;
+
+          var apiKey = 'd621ebdd29e23f71bdd19a48a4f6acc3';
+          var url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+          $.getJSON(url, function(data) {
+            var weatherInfo = document.getElementById('weatherInfo');
+            weatherInfo.innerHTML = `
+              <h2>${data.name}, ${data.sys.country}</h2>
+              <p>Temperature: ${kelvinToCelsius(data.main.temp)}°C</p>
+              <p>Humidity: ${data.main.humidity}%</p>
+              <p>Weather: ${data.weather[0].description} <i class="fas ${getWeatherIconClass(data.weather[0].icon)}"></i></p>
+            `;
+
+            displayCropCards(data.weather[0].icon);
+          }).fail(function() {
+            var weatherInfo = document.getElementById('weatherInfo');
+            weatherInfo.innerHTML = 'Failed to fetch weather data. Please try again.';
+          });
+        });
+      } else {
+        var weatherInfo = document.getElementById('weatherInfo');
+        weatherInfo.innerHTML = 'Geolocation is not supported by this browser.';
+      }
+    }
+
+    getCurrentLocationWeather();
+  </script>
+  </body>
+</html>
